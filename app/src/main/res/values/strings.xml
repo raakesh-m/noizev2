@@ -250,7 +250,7 @@
     <string name="main_lyrics_provider">Main Lyrics Provider</string>
     <string name="log_in_to_Musixmatch">Log in to Musixmatch</string>
     <string name="only_support_email_and_password_type">Only support email and password type</string>
-    <string name="musixmatch_login_description">Musixmatch Translation API works only with logged-in user. Noize used Musixmatch Developer API. More information, go to https://github.com/maxrave-dev/Noize or https://developer.musixmatch.com/</string>
+    <string name="musixmatch_login_description">Musixmatch Translation API works only with logged-in user. Noize uses Musixmatch Developer API.</string>
     <string name="use_musixmatch_translation">Use Musixmatch Translation</string>
     <string name="use_ai_translation">Use AI Lyric Translation</string>
     <string name="use_musixmatch_translation_description">Enable lyrics translation using Musixmatch. Require Musixmatch Login</string>
@@ -352,7 +352,7 @@
     <string name="user_interface">Interface</string>
     <string name="translucent_bottom_navigation_bar">Translucent bottom navigation bar</string>
     <string name="you_can_see_the_content_below_the_bottom_bar">You can see the content below the bottom bar</string>
-    <string name="donation">If you love my work, give me a coffee</string>
+    <string name="donation" translatable="false"> </string>
     <string name="relax">Relax</string>
     <string name="sleep">Sleep</string>
     <string name="energize">Energize</string>
@@ -412,8 +412,8 @@
     <string name="give_a_star">Give a star</string>
     <string name="enjoying_simpmusic">Enjoying Noize</string>
     <string name="if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on">If you enjoy using Noize, star Noize on GitHub or leave a review on</string>
-    <string name="if_you_love_my_work_consider">"If you love my work, consider "</string>
-    <string name="buying_me_a_coffee">buying me a coffee.</string>
+    <string name="if_you_love_my_work_consider" translatable="false"> </string>
+    <string name="buying_me_a_coffee" translatable="false"> </string>
     <string name="fade_audio_effect">Fade audio effect</string>
     <string name="disabled">Disable</string>
     <string name="fade_audio_effect_duration">Fade audio effect duration (ms) (Set to 0 for disable)</string>

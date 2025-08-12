@@ -40,7 +40,7 @@ fun ReviewDialog(
         confirmButton = {
             TextButton(onClick = {
                 onDoneReview.invoke()
-                uriHandler.openUri("https://github.com/maxrave-dev/Noize")
+                // GitHub link removed
             }) {
                 Text(
                     stringResource(R.string.give_a_star),

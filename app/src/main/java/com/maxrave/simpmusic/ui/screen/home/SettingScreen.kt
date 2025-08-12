@@ -1339,20 +1339,7 @@ fun SettingScreen(
                     },
                 )
                 // Auto update and manual check removed per requirements
-                SettingItem(
-                    title = stringResource(R.string.author),
-                    subtitle = stringResource(R.string.maxrave_dev),
-                    onClick = {
-                        uriHandler.openUri("https://github.com/maxrave-dev")
-                    },
-                )
-                SettingItem(
-                    title = stringResource(R.string.buy_me_a_coffee),
-                    subtitle = stringResource(R.string.donation),
-                    onClick = {
-                        uriHandler.openUri("https://github.com/sponsors/maxrave-dev")
-                    },
-                )
+                // Author and donation settings removed
                 SettingItem(
                     title = stringResource(R.string.third_party_libraries),
                     subtitle = stringResource(R.string.description_and_licenses),
