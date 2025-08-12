@@ -12,7 +12,7 @@ fun reportCrash(throwable: Throwable) {
 
 fun configCrashlytics(applicationContext: Context) {
     SentryAndroid.init(applicationContext) { options ->
-        val dsn = BuildConfig.SENTRY_DSN
+        val dsn = "" // BuildConfig.SENTRY_DSN disabled in rebrand
         Log.d("Sentry", "dsn: $dsn")
         options.dsn = dsn
     }

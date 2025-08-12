@@ -210,8 +210,7 @@ fun SettingScreen(
     val isHasApiKey by viewModel.isHasApiKey.collectAsStateWithLifecycle()
     val useAITranslation by viewModel.useAITranslation.collectAsStateWithLifecycle()
     val customModelId by viewModel.customModelId.collectAsStateWithLifecycle()
-    val helpBuildLyricsDatabase by viewModel.helpBuildLyricsDatabase.collectAsStateWithLifecycle()
-    val contributor by viewModel.contributor.collectAsStateWithLifecycle()
+    // Removed: helpBuildLyricsDatabase and contributor settings
 
     var checkForUpdateSubtitle by rememberSaveable {
         mutableStateOf("")

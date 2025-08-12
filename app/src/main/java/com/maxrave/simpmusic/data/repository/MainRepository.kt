@@ -3117,13 +3117,8 @@ class MainRepository(
 
     fun checkForUpdate(): Flow<GithubResponse?> =
         flow {
-            youTube
-                .checkForUpdate()
-                .onSuccess {
-                    emit(it)
-                }.onFailure {
-                    emit(null)
-                }
+            // checkForUpdate disabled in rebrand
+            emit(null)
         }
 
     suspend fun getYouTubeSetVideoId(youtubePlaylistId: String): Flow<ArrayList<SetVideoIdEntity>?> =
@@ -3332,14 +3327,16 @@ class MainRepository(
     private val simpMusicLyricsTag = "NoizeLyricsRepository"
 
     fun getNoizeLyrics(videoId: String): Flow<Resource<Lyrics>> =
-        // Deprecated: route to YouTube captions for backwards compatibility
-        getYouTubeCaption(videoId).map { res ->
-            when (res) {
-                is Resource.Success -> {
-                    val data = res.data?.first
-                    if (data != null) Resource.Success(data) else Resource.Error("No lyrics found")
+        flow {
+            // Deprecated: route to YouTube captions for backwards compatibility
+            getYouTubeCaption(videoId).collect { res ->
+                when (res) {
+                    is Resource.Success -> {
+                        val data = res.data?.first
+                        if (data != null) emit(Resource.Success(data)) else emit(Resource.Error("No lyrics found"))
+                    }
+                    is Resource.Error -> emit(Resource.Error(res.message ?: "No lyrics found"))
                 }
-                is Resource.Error -> Resource.Error(res.message ?: "No lyrics found")
             }
         }.flowOn(Dispatchers.IO)
 
