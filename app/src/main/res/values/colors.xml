@@ -80,4 +80,7 @@
     <color name="card_shadow_2">#2D151515</color>
     <color name="light_blue_50">#FFE1F5FE</color>
     <color name="light_blue_200">#FF81D4FA</color>
+    
+    <!-- Launcher icon background -->
+    <color name="ic_launcher_background">#6B46C1</color>
 </resources>
