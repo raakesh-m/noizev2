@@ -47,35 +47,9 @@ android {
 
         @Suppress("UnstableApiUsage")
         androidResources {
-            localeFilters +=
-                listOf(
-                    "en",
-                    "vi",
-                    "it",
-                    "de",
-                    "ru",
-                    "tr",
-                    "fi",
-                    "pl",
-                    "pt",
-                    "fr",
-                    "es",
-                    "zh",
-                    "in",
-                    "ar",
-                    "ja",
-                    "b+zh+Hant+TW",
-                    "uk",
-                    "iw",
-                    "az",
-                    "hi",
-                    "th",
-                    "nl",
-                    "ko",
-                    "ca",
-                    "fa",
-                    "bg",
-                )
+            // Package English only to reduce APK size
+            localeFilters.clear()
+            localeFilters += listOf("en")
         }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

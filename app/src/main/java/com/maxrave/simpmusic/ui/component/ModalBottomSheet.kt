@@ -1339,7 +1339,7 @@ fun NowPlayingBottomSheet(
                             },
                         )
                         Spacer(modifier = Modifier.size(10.dp))
-                        Text(text = stringResource(id = R.string.simpmusic_lyrics), style = typo.labelSmall)
+                        Text(text = stringResource(id = R.string.youtube_transcript), style = typo.labelSmall)
                     }
                     Row(
                         modifier =

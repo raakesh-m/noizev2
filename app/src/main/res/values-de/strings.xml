@@ -116,10 +116,10 @@
     <string name="restore_your_saved_data">Gespeicherte Daten wiederherstellen</string>
     <string name="about_us">Über uns</string>
     <string name="version">Version</string>
-    <string name="github">Github</string>
-    <string name="maxrave_dev">maxrave-dev</string>
-    <string name="buy_me_a_coffee">Spendiere mir einen Kaffee</string>
-    <string name="paypal">PayPal</string>
+    <string name="github" translatable="false"> </string>
+    <string name="maxrave_dev" translatable="false"> </string>
+    <string name="buy_me_a_coffee" translatable="false"> </string>
+    <string name="paypal" translatable="false"> </string>
     <string name="title">Titel</string>
     <string name="album">Album</string>
     <string name="youtube_url">YouTube URL</string>

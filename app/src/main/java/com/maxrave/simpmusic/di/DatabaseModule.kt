@@ -28,7 +28,7 @@ import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import org.simpmusic.aiservice.AiClient
-import org.simpmusic.lyrics.SimpMusicLyricsClient
+// import org.simpmusic.lyrics.SimpMusicLyricsClient
 import java.time.ZoneOffset
 
 val databaseModule =
@@ -201,11 +201,7 @@ val databaseModule =
             AiClient()
         }
 
-        single(createdAtStart = true) {
-            SimpMusicLyricsClient(
-                androidContext(),
-            )
-        }
+        // SimpMusicLyricsClient disabled per rebrand: lyrics come from YouTube/Spotify/LRCLIB and AI translation
 
         // MainRepository
         single(createdAtStart = true) {
@@ -215,7 +211,6 @@ val databaseModule =
                 get<YouTube>(),
                 get<Spotify>(),
                 get<LyricsClient>(),
-                get<SimpMusicLyricsClient>(),
                 get<AiClient>(),
                 get<MusicDatabase>(),
                 androidContext(),

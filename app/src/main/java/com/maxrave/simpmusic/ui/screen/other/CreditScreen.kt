@@ -97,11 +97,7 @@ fun CreditScreen(
             fontSize = 13.sp,
         )
 
-        // Developer
-        Text(
-            text = stringResource(id = R.string.maxrave_dev),
-            style = typo.bodyMedium,
-        )
+        // Developer removed per rebrand (no author shown)
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -119,95 +115,18 @@ fun CreditScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
-            // GitHub button
-            TextButton(
-                onClick = {
-                    val urlIntent =
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            "https://simpmusic.org".toUri(),
-                        )
-                    context.startActivity(urlIntent)
-                },
-                modifier =
-                    Modifier
-                        .align(Alignment.Start)
-                        .padding(horizontal = 25.dp)
-                        .defaultMinSize(minHeight = 1.dp, minWidth = 1.dp),
-            ) {
-                Text(text = stringResource(id = R.string.website))
-            }
+            // Website removed
 
-            // GitHub button
-            TextButton(
-                onClick = {
-                    val urlIntent =
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            "https://github.com/maxrave-dev/Noize".toUri(),
-                        )
-                    context.startActivity(urlIntent)
-                },
-                modifier =
-                    Modifier
-                        .align(Alignment.Start)
-                        .padding(horizontal = 25.dp)
-                        .defaultMinSize(minHeight = 1.dp, minWidth = 1.dp),
-            ) {
-                Text(text = stringResource(id = R.string.github))
-            }
+            // GitHub link removed
 
-            // Issue tracker button
-            TextButton(
-                onClick = {
-                    val urlIntent =
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            "https://github.com/maxrave-dev/Noize/issues".toUri(),
-                        )
-                    context.startActivity(urlIntent)
-                },
-                modifier =
-                    Modifier
-                        .align(Alignment.Start)
-                        .padding(horizontal = 25.dp)
-                        .defaultMinSize(minHeight = 1.dp, minWidth = 1.dp),
-            ) {
-                Text(text = stringResource(id = R.string.issue_tracker))
-            }
+            // Issue tracker removed
 
-            // Buy me a coffee button
-            TextButton(
-                onClick = {
-                    val urlIntent =
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            "https://github.com/sponsors/maxrave-dev".toUri(),
-                        )
-                    context.startActivity(urlIntent)
-                },
-                modifier =
-                    Modifier
-                        .align(Alignment.Start)
-                        .padding(horizontal = 25.dp)
-                        .defaultMinSize(minHeight = 1.dp, minWidth = 1.dp),
-            ) {
-                Text(text = stringResource(id = R.string.buy_me_a_coffee))
-            }
+            // Donations removed
         }
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        // Copyright text
-        Text(
-            text = stringResource(id = R.string.copyright),
-            style = typo.bodySmall,
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 25.dp, vertical = 5.dp),
-            textAlign = TextAlign.Start,
-        )
+        // Copyright text removed
 
         // Bottom spacing
         Spacer(modifier = Modifier.height(200.dp))

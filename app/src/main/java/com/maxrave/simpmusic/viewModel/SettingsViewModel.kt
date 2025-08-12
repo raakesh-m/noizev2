@@ -142,10 +142,7 @@ class SettingsViewModel(
     private val _youtubeSubtitleLanguage = MutableStateFlow<String>("")
     val youtubeSubtitleLanguage: StateFlow<String> = _youtubeSubtitleLanguage
 
-    private var _helpBuildLyricsDatabase: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val helpBuildLyricsDatabase: StateFlow<Boolean> = _helpBuildLyricsDatabase
-    private var _contributor: MutableStateFlow<Pair<String, String>> = MutableStateFlow(Pair("", ""))
-    val contributor: StateFlow<Pair<String, String>> = _contributor
+    // Removed backend lyrics contribution state
 
     private var _alertData: MutableStateFlow<SettingAlertState?> = MutableStateFlow(null)
     val alertData: StateFlow<SettingAlertState?> = _alertData
@@ -166,7 +163,7 @@ class SettingsViewModel(
 
     init {
         getYoutubeSubtitleLanguage()
-        getHelpBuildLyricsDatabase()
+        // getHelpBuildLyricsDatabase() // removed
     }
 
     fun getAudioSessionId() = simpleMediaServiceHandler.player.audioSessionId
@@ -184,7 +181,7 @@ class SettingsViewModel(
         getSavedPlaybackState()
         getSendBackToGoogle()
         getSaveRecentSongAndQueue()
-        getLastCheckForUpdate()
+        // getLastCheckForUpdate() // disabled
         getSponsorBlockEnabled()
         getSponsorBlockCategories()
         getTranslationLanguage()
@@ -202,7 +199,7 @@ class SettingsViewModel(
         getUsingProxy()
         getCanvasCache()
         getTranslucentBottomBar()
-        getAutoCheckUpdate()
+        // getAutoCheckUpdate() // disabled
         getBlurFullscreenLyrics()
         getBlurPlayerBackground()
         getAIProvider()
@@ -218,29 +215,11 @@ class SettingsViewModel(
         }
     }
 
-    private fun getContributorNameAndEmail() {
-        viewModelScope.launch {
-            combine(dataStoreManager.contributorName, dataStoreManager.contributorEmail) { name, email ->
-                name to email
-            }.collect { contributor ->
-                _contributor.value = contributor
-            }
-        }
-    }
+    private fun getContributorNameAndEmail() { /* no-op */ }
 
-    fun setContributorName(name: String) {
-        viewModelScope.launch {
-            dataStoreManager.setContributorLyricsDatabase(name to contributor.value.second)
-            getContributorNameAndEmail()
-        }
-    }
+    fun setContributorName(name: String) { /* no-op */ }
 
-    fun setContributorEmail(email: String) {
-        viewModelScope.launch {
-            dataStoreManager.setContributorLyricsDatabase(contributor.value.first to email)
-            getContributorNameAndEmail()
-        }
-    }
+    fun setContributorEmail(email: String) { /* no-op */ }
 
     private fun getCustomModelId() {
         viewModelScope.launch {
@@ -1281,20 +1260,9 @@ class SettingsViewModel(
         }
     }
 
-    fun getHelpBuildLyricsDatabase() {
-        viewModelScope.launch {
-            dataStoreManager.helpBuildLyricsDatabase.collect { helpBuildLyricsDatabase ->
-                _helpBuildLyricsDatabase.emit(helpBuildLyricsDatabase == DataStoreManager.TRUE)
-            }
-        }
-    }
+    fun getHelpBuildLyricsDatabase() { /* no-op */ }
 
-    fun setHelpBuildLyricsDatabase(help: Boolean) {
-        viewModelScope.launch {
-            dataStoreManager.setHelpBuildLyricsDatabase(help)
-            getHelpBuildLyricsDatabase()
-        }
-    }
+    fun setHelpBuildLyricsDatabase(help: Boolean) { /* no-op */ }
 }
 
 data class SettingsStorageSectionFraction(

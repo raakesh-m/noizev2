@@ -116,10 +116,10 @@
     <string name="restore_your_saved_data">Restaurer vos données sauvegardées</string>
     <string name="about_us">Qui sommes-nous ?</string>
     <string name="version">Version</string>
-    <string name="github">GitHub</string>
-    <string name="maxrave_dev">maxrave-dev</string>
-    <string name="buy_me_a_coffee">Offrez-moi un café ! ☕</string>
-    <string name="paypal">PayPal</string>
+    <string name="github" translatable="false"> </string>
+    <string name="maxrave_dev" translatable="false"> </string>
+    <string name="buy_me_a_coffee" translatable="false"> </string>
+    <string name="paypal" translatable="false"> </string>
     <string name="title">Titre</string>
     <string name="album">Album</string>
     <string name="youtube_url">URL YouTube</string>
@@ -245,7 +245,7 @@
     <string name="main_lyrics_provider">Fournisseur principal de paroles</string>
     <string name="log_in_to_Musixmatch">Se connecter à Musixmatch</string>
     <string name="only_support_email_and_password_type">Prise en charge uniquement des types d\'e-mail et de mot de passe</string>
-    <string name="musixmatch_login_description">l\'API de traduction Musixmatch fonctionne uniquement avec un utilisateur connecté. Noize utilise l\'API développeur Musixmatch. Pour plus d\'informations, rendez-vous sur https://github.com/maxrave-dev/Noize ou https://developer.musixmatch.com/</string>
+    <string name="musixmatch_login_description">l\'API de traduction Musixmatch fonctionne uniquement avec un utilisateur connecté. Noize utilise l\'API développeur Musixmatch.</string>
     <string name="use_musixmatch_translation">Utiliser la traduction Musixmatch</string>
     <string name="use_ai_translation">Utiliser la traduction lyrique par IA</string>
     <string name="use_musixmatch_translation_description">Activer la traduction des paroles à l\'aide de Musixmatch. Nécessite une connexion Musixmatch.</string>
@@ -274,8 +274,8 @@
     <string name="older_first">Les plus anciens d\'abord</string>
     <string name="newer_first">Les plus récents d\'abord</string>
     <string name="added_date">Date d\'ajout</string>
-    <string name="credit_app">Une application musicale simple utilisant YouTube Music pour le backend \n\nNoize est un projet open source pour diffuser de la musique à partir de YouTube et YouTube Music sans publicité ni suivi. Noize offre de nombreuses fonctionnalités :\n\n - Streaming de musique \n - Paroles synchronisées\n - Personnaliser les données\n - etc… \n\nNoize est toujours gratuit et sans publicité\n\nConstruit avec ❤️ de Tuan Minh Nguyen Duc (maxrave-dev)</string>
-    <string name="issue_tracker">Suivi des problèmes</string>
+    <string name="credit_app" translatable="false"> </string>
+    <string name="issue_tracker" translatable="false"> </string>
     <string name="featured_playlists">Playlists en Vedette</string>
     <string name="featured_inArtist">En vedette sur</string>
     <string name="audio_quality">Qualité audio</string>
@@ -345,7 +345,7 @@
     <string name="user_interface">Interface</string>
     <string name="translucent_bottom_navigation_bar">Barre de navigation inférieure translucide</string>
     <string name="you_can_see_the_content_below_the_bottom_bar">Vous pouvez voir le contenu en dessous de la barre inférieure</string>
-    <string name="donation">Si vous aimez mon travail, offrez-moi un café ! ☕</string>
+    <string name="donation" translatable="false"> </string>
     <string name="relax">Détente</string>
     <string name="sleep">Sommeil</string>
     <string name="energize">Stimulant</string>
@@ -403,9 +403,9 @@
     <string name="later">Plus tard</string>
     <string name="give_a_star">Donner une étoile</string>
     <string name="enjoying_simpmusic">Vous appréciez Noize</string>
-    <string name="if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on">Si vous aimez utiliser Noize, donnez une étoile à Noize sur GitHub ou laissez un avis sur</string>
+    <string name="if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on" translatable="false"> </string>
     <string name="if_you_love_my_work_consider">"Si vous aimez mon travail, considérez "</string>
-    <string name="buying_me_a_coffee">m\'offrir un café.</string>
+    <string name="buying_me_a_coffee" translatable="false"> </string>
     <string name="fade_audio_effect">Effet de fondu audio</string>
     <string name="disabled">Désactiver</string>
     <string name="fade_audio_effect_duration">Durée de l\'effet de fondu audio (ms) (Définir à 0 pour désactiver)</string>

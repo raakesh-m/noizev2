@@ -131,7 +131,7 @@ import okhttp3.Request
 import okhttp3.Response
 import org.simpmusic.aiservice.AIHost
 import org.simpmusic.aiservice.AiClient
-import org.simpmusic.lyrics.SimpMusicLyricsClient
+// import org.simpmusic.lyrics.SimpMusicLyricsClient
 import org.simpmusic.lyrics.models.request.LyricsBody
 import org.simpmusic.lyrics.models.request.TranslatedLyricsBody
 import java.io.File
@@ -144,7 +144,7 @@ class MainRepository(
     private val youTube: YouTube,
     private val spotify: Spotify,
     private val lyricsClient: LyricsClient,
-    private val simpMusicLyrics: SimpMusicLyricsClient,
+    // private val simpMusicLyrics: SimpMusicLyricsClient,
     private val aiClient: AiClient,
     private val database: MusicDatabase,
     private val context: Context,
@@ -3332,142 +3332,41 @@ class MainRepository(
     private val simpMusicLyricsTag = "NoizeLyricsRepository"
 
     fun getNoizeLyrics(videoId: String): Flow<Resource<Lyrics>> =
-        flow {
-            simpMusicLyrics
-                .getLyrics(videoId)
-                .onSuccess { lyrics ->
-                    Log.d(simpMusicLyricsTag, "Lyrics found: $lyrics")
-                    val result = lyrics.firstOrNull()
-                    if (result == null) {
-                        Log.w(simpMusicLyricsTag, "No lyrics found for videoId: $videoId")
-                        emit(Resource.Error<Lyrics>("No lyrics found"))
-                        return@onSuccess
-                    }
-                    val appLyrics =
-                        result.toLyrics()?.copy(
-                            simpMusicLyricsId = result.id,
-                        )
-                    if (appLyrics == null) {
-                        Log.w(simpMusicLyricsTag, "Failed to convert lyrics for videoId: $videoId")
-                        emit(Resource.Error<Lyrics>("Failed to convert lyrics"))
-                        return@onSuccess
-                    }
-                    emit(
-                        Resource.Success<Lyrics>(
-                            appLyrics,
-                        ),
-                    )
-                }.onFailure {
-                    Log.e(simpMusicLyricsTag, "Get Lyrics Error: ${it.message}")
-                    emit(Resource.Error<Lyrics>(it.message ?: "Failed to get lyrics"))
+        // Deprecated: route to YouTube captions for backwards compatibility
+        getYouTubeCaption(videoId).map { res ->
+            when (res) {
+                is Resource.Success -> {
+                    val data = res.data?.first
+                    if (data != null) Resource.Success(data) else Resource.Error("No lyrics found")
                 }
+                is Resource.Error -> Resource.Error(res.message ?: "No lyrics found")
+            }
         }.flowOn(Dispatchers.IO)
 
     fun getNoizeTranslatedLyrics(
         videoId: String,
         language: String,
     ): Flow<Resource<Lyrics>> =
-        flow {
-            simpMusicLyrics
-                .getTranslatedLyrics(videoId, language)
-                .onSuccess { lyrics ->
-                    Log.d(simpMusicLyricsTag, "Translated Lyrics found: ${lyrics.toLyrics()}")
-                    emit(
-                        Resource.Success<Lyrics>(
-                            lyrics
-                                .toLyrics()
-                                .copy(
-                                    simpMusicLyricsId = lyrics.id,
-                                ),
-                        ),
-                    )
-                }.onFailure {
-                    Log.e(simpMusicLyricsTag, "Get Translated Lyrics Error: ${it.message}")
-                    emit(Resource.Error<Lyrics>(it.message ?: "Failed to get translated lyrics"))
-                }
-        }.flowOn(Dispatchers.IO)
+        // Deprecated: use AI translation path in ViewModel
+        flow { emit(Resource.Error<Lyrics>("Deprecated")) }.flowOn(Dispatchers.IO)
 
     fun voteNoizeTranslatedLyrics(
         translatedLyricsId: String,
         upvote: Boolean,
     ): Flow<Resource<String>> =
-        flow {
-            simpMusicLyrics
-                .voteTranslatedLyrics(translatedLyricsId, upvote)
-                .onSuccess {
-                    Log.d(simpMusicLyricsTag, "Vote Translated Lyrics Success: $it")
-                    emit(Resource.Success(it.id))
-                }.onFailure {
-                    Log.e(simpMusicLyricsTag, "Vote Translated Lyrics Error: ${it.message}")
-                    emit(Resource.Error<String>(it.message ?: "Failed to vote translated lyrics"))
-                }
-        }.flowOn(Dispatchers.IO)
+        flow { emit(Resource.Error<String>("Deprecated")) }.flowOn(Dispatchers.IO)
 
     fun insertNoizeLyrics(
         track: Track,
         duration: Int,
         lyrics: Lyrics,
     ): Flow<Resource<String>> =
-        flow {
-            if (lyrics.lines.isNullOrEmpty()) {
-                emit(
-                    Resource.Error<String>("Lyrics are empty"),
-                )
-                return@flow
-            }
-            val (contributorName, contributorEmail) = dataStoreManager.contributorName.first() to dataStoreManager.contributorEmail.first()
-            simpMusicLyrics
-                .insertLyrics(
-                    LyricsBody(
-                        videoId = track.videoId,
-                        songTitle = track.title,
-                        artistName = track.artists?.toListName()?.connectArtists() ?: "",
-                        albumName = track.album?.name ?: "",
-                        durationSeconds = duration,
-                        plainLyric = lyrics.toPlainLrcString() ?: "",
-                        syncedLyrics = lyrics.toSyncedLrcString(),
-                        richSyncLyrics = "",
-                        contributor = contributorName,
-                        contributorEmail = contributorEmail,
-                    ),
-                ).onSuccess {
-                    Log.d(simpMusicLyricsTag, "Inserted Lyrics: $it")
-                    emit(Resource.Success(it.id))
-                }.onFailure {
-                    Log.e(simpMusicLyricsTag, "Insert Lyrics Error: ${it.message}")
-                    emit(Resource.Error<String>(it.message ?: "Failed to insert lyrics"))
-                }
-        }.flowOn(Dispatchers.IO)
+        flow { emit(Resource.Error<String>("Deprecated")) }.flowOn(Dispatchers.IO)
 
     fun insertNoizeTranslatedLyrics(
         track: Track,
         translatedLyrics: Lyrics,
         language: String,
     ): Flow<Resource<String>> =
-        flow {
-            val syncedLyrics = translatedLyrics.toSyncedLrcString()
-            if (translatedLyrics.lines.isNullOrEmpty() || syncedLyrics == null || language.length != 2) {
-                emit(
-                    Resource.Error<String>("Lyrics are empty"),
-                )
-                return@flow
-            }
-            val (contributorName, contributorEmail) = dataStoreManager.contributorName.first() to dataStoreManager.contributorEmail.first()
-            simpMusicLyrics
-                .insertTranslatedLyrics(
-                    TranslatedLyricsBody(
-                        videoId = track.videoId,
-                        translatedLyric = syncedLyrics,
-                        language = language,
-                        contributor = contributorName,
-                        contributorEmail = contributorEmail,
-                    ),
-                ).onSuccess {
-                    Log.d(simpMusicLyricsTag, "Inserted Translated Lyrics: $it")
-                    emit(Resource.Success(it.id))
-                }.onFailure {
-                    Log.e(simpMusicLyricsTag, "Insert Translated Lyrics Error: ${it.message}")
-                    emit(Resource.Error<String>(it.message ?: "Failed to insert translated lyrics"))
-                }
-        }.flowOn(Dispatchers.IO)
+        flow { emit(Resource.Error<String>("Deprecated")) }.flowOn(Dispatchers.IO)
 }

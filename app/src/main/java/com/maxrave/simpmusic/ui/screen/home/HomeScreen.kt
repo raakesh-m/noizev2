@@ -209,8 +209,8 @@ fun HomeScreen(
         Log.w("HomeScreen", "openAppTime: $openAppTime, shareLyricsPermissions: $shareLyricsPermissions")
         if (openAppTime >= 10 && openAppTime % 10 == 0 && openAppTime <= 50) {
             showReviewDialog = true
-        } else if ((openAppTime == 1 || openAppTime % 15 == 0) && openAppTime <= 60 && !shareLyricsPermissions) {
-            showRequestShareLyricsPermissions = true
+        } else if (false) {
+            // disabled share saved lyrics prompt
         } else {
             showReviewDialog = false
             showRequestShareLyricsPermissions = false
@@ -252,21 +252,7 @@ fun HomeScreen(
         )
     }
 
-    if (showRequestShareLyricsPermissions) {
-        ShareSavedLyricsDialog(
-            onDismissRequest = {
-                showRequestShareLyricsPermissions = false
-                sharedViewModel.onDoneReview(
-                    isDismissOnly = true,
-                )
-            },
-            onConfirm = { contributor ->
-                sharedViewModel.onDoneRequestingShareLyrics(
-                    contributor,
-                )
-            },
-        )
-    }
+    // Removed ShareSavedLyricsDialog since backend is disabled
 
     if (shouldShowLogInAlert) {
         var doNotShowAgain by rememberSaveable {

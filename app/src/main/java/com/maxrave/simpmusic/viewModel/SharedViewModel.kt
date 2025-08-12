@@ -241,11 +241,10 @@ class SharedViewModel(
                         setLyricsProvider()
                     }
                 }
+            // Disable backend share lyrics prompt
             val shareSavedLyricsJob =
                 launch {
-                    dataStoreManager.helpBuildLyricsDatabase.distinctUntilChanged().collectLatest {
-                        _shareSavedLyrics.value = it == TRUE
-                    }
+                    _shareSavedLyrics.value = false
                 }
             timeLineJob.join()
             checkGetVideoJob.join()
@@ -893,35 +892,17 @@ class SharedViewModel(
                         )
                         Log.d(tag, "Removed out-of-sync translated lyrics for $videoId")
                         val simpMusicLyricsId = lyrics.simpMusicLyricsId
-                        if (lyricsProvider == LyricsProvider.SIMPMUSIC && !simpMusicLyricsId.isNullOrEmpty()) {
-                            viewModelScope.launch {
-                                mainRepository
-                                    .voteNoizeTranslatedLyrics(
-                                        translatedLyricsId = simpMusicLyricsId,
-                                        false,
-                                    ).collectLatest {
-                                        when (it) {
-                                            is Resource.Error -> {
-                                                Log.w(tag, "Vote Noize Translated Lyrics Error ${it.message}")
-                                            }
-                                            is Resource.Success -> {
-                                                Log.d(tag, "Vote Noize Translated Lyrics Success")
-                                            }
-                                        }
-                                    }
-                            }
-                        }
+                    // Legacy Noize vote path removed
+                    if (lyricsProvider == LyricsProvider.SIMPMUSIC && !simpMusicLyricsId.isNullOrEmpty()) {
+                        // no-op
+                    }
                     }
                     return
                 }
             }
         }
 
-        val shouldSendLyricsToNoize =
-            runBlocking {
-                dataStoreManager.helpBuildLyricsDatabase.first() == TRUE
-            } &&
-                lyricsProvider != LyricsProvider.SIMPMUSIC
+        val shouldSendLyricsToNoize = false
         if (_nowPlayingState.value?.songEntity?.videoId == videoId) {
             val track = _nowPlayingState.value?.track
             when (isTranslatedLyrics) {
@@ -934,25 +915,7 @@ class SharedViewModel(
                                 ),
                         )
                     }
-                    if (shouldSendLyricsToNoize && track != null) {
-                        viewModelScope.launch {
-                            mainRepository
-                                .insertNoizeTranslatedLyrics(
-                                    track,
-                                    lyrics,
-                                    dataStoreManager.translationLanguage.first(),
-                                ).collect {
-                                    when (it) {
-                                        is Resource.Error -> {
-                                            Log.w(tag, "Insert Noize Translated Lyrics Error ${it.message}")
-                                        }
-                                        is Resource.Success -> {
-                                            Log.d(tag, "Insert Noize Translated Lyrics Success")
-                                        }
-                                    }
-                                }
-                        }
-                    }
+                    // Noize backend disabled
                 }
                 false -> {
                     _nowPlayingScreenData.update {
@@ -975,25 +938,7 @@ class SharedViewModel(
                             ),
                         )
                     }
-                    if (shouldSendLyricsToNoize && track != null) {
-                        viewModelScope.launch {
-                            mainRepository
-                                .insertNoizeLyrics(
-                                    track,
-                                    duration,
-                                    lyrics,
-                                ).collect {
-                                    when (it) {
-                                        is Resource.Error -> {
-                                            Log.w(tag, "Insert Noize Lyrics Error ${it.message}")
-                                        }
-                                        is Resource.Success -> {
-                                            Log.d(tag, "Insert Noize Lyrics Success")
-                                        }
-                                    }
-                                }
-                        }
-                    }
+                    // Noize backend disabled
                 }
             }
         }
@@ -1023,37 +968,68 @@ class SharedViewModel(
             val lyricsProvider = dataStoreManager.lyricsProvider.first()
             when (lyricsProvider) {
                 DataStoreManager.SIMPMUSIC -> {
-                    mainRepository.getNoizeLyrics(videoId).collectLatest {
-                        Log.w(tag, "Get Noize Lyrics for $videoId: $it")
-                        val data = it.data
-                        if (it is Resource.Success && data != null) {
-                            Log.d(tag, "Get Noize Lyrics Success")
-                            updateLyrics(
-                                videoId,
-                                duration,
-                                data,
-                                false,
-                                LyricsProvider.SIMPMUSIC,
-                            )
-                            insertLyrics(
-                                data.toLyricsEntity(videoId),
-                            )
-                            getNoizeTranslatedLyrics(
-                                videoId,
-                                data,
-                            )
-                        } else if (dataStoreManager.spotifyLyrics.first() == TRUE) {
-                            getSpotifyLyrics(
-                                song.toTrack().copy(durationSeconds = duration),
-                                "${song.title} $artist",
-                                duration,
-                            )
-                        } else {
-                            getLrclibLyrics(
-                                song,
-                                (artist ?: "").toString(),
-                                duration,
-                            )
+                    // Redirect legacy SimpMusic provider to YouTube captions
+                    mainRepository.getYouTubeCaption(videoId).cancellable().collect { response ->
+                        when (response) {
+                            is Resource.Success -> {
+                                if (response.data != null) {
+                                    val lyrics = response.data.first
+                                    val translatedLyrics = response.data.second
+                                    insertLyrics(lyrics.toLyricsEntity(videoId))
+                                    updateLyrics(
+                                        videoId,
+                                        duration,
+                                        lyrics,
+                                        false,
+                                        LyricsProvider.YOUTUBE,
+                                    )
+                                    if (translatedLyrics != null) {
+                                        updateLyrics(
+                                            videoId,
+                                            duration,
+                                            translatedLyrics,
+                                            true,
+                                            LyricsProvider.YOUTUBE,
+                                        )
+                                    } else {
+                                        getAITranslationLyrics(
+                                            videoId,
+                                            lyrics,
+                                        )
+                                    }
+                                } else if (dataStoreManager.spotifyLyrics.first() == TRUE) {
+                                    getSpotifyLyrics(
+                                        song.toTrack().copy(
+                                            durationSeconds = duration,
+                                        ),
+                                        "${song.title} ${song.artistName?.firstOrNull() ?: simpleMediaServiceHandler.nowPlaying
+                                            .first()
+                                            ?.mediaMetadata
+                                            ?.artist ?: ""}",
+                                        duration,
+                                    )
+                                }
+                            }
+                            is Resource.Error -> {
+                                if (dataStoreManager.spotifyLyrics.first() == TRUE) {
+                                    getSpotifyLyrics(
+                                        song.toTrack().copy(
+                                            durationSeconds = duration,
+                                        ),
+                                        "${song.title} ${song.artistName?.firstOrNull() ?: simpleMediaServiceHandler.nowPlaying
+                                            .first()
+                                            ?.mediaMetadata
+                                            ?.artist ?: ""}",
+                                        duration,
+                                    )
+                                } else {
+                                    getLrclibLyrics(
+                                        song,
+                                        (artist ?: "").toString(),
+                                        duration,
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -1288,31 +1264,8 @@ class SharedViewModel(
         videoId: String,
         lyrics: Lyrics,
     ) {
-        val translationLanguage =
-            dataStoreManager.translationLanguage.first()
-        mainRepository.getNoizeTranslatedLyrics(videoId, translationLanguage).collectLatest { response ->
-            val data = response.data
-            when (response) {
-                is Resource.Success if (data != null) -> {
-                    Log.d(tag, "Get Noize Translated Lyrics Success")
-                    updateLyrics(
-                        videoId,
-                        0,
-                        data,
-                        true,
-                        LyricsProvider.SIMPMUSIC,
-                    )
-                }
-
-                else -> {
-                    Log.w(tag, "Get Noize Translated Lyrics Error: ${response.message}")
-                    getAITranslationLyrics(
-                        videoId,
-                        lyrics,
-                    )
-                }
-            }
-        }
+        // Legacy path removed; prefer AI translation when YouTube lacks translated captions
+        getAITranslationLyrics(videoId, lyrics)
     }
 
     private suspend fun getAITranslationLyrics(

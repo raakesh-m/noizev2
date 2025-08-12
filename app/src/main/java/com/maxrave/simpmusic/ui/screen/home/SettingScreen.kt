@@ -661,7 +661,7 @@ fun SettingScreen(
                     title = stringResource(R.string.main_lyrics_provider),
                     subtitle =
                         when (mainLyricsProvider) {
-                            DataStoreManager.SIMPMUSIC -> stringResource(R.string.simpmusic_lyrics)
+                            DataStoreManager.SIMPMUSIC -> stringResource(R.string.youtube_transcript)
                             DataStoreManager.MUSIXMATCH -> stringResource(R.string.musixmatch)
                             DataStoreManager.YOUTUBE -> stringResource(R.string.youtube_transcript)
                             DataStoreManager.LRCLIB -> stringResource(R.string.lrclib)
@@ -675,7 +675,7 @@ fun SettingScreen(
                                     SettingAlertState.SelectData(
                                         listSelect =
                                             listOf(
-                                                (mainLyricsProvider == DataStoreManager.SIMPMUSIC) to context.getString(R.string.simpmusic_lyrics),
+                                                (mainLyricsProvider == DataStoreManager.SIMPMUSIC) to context.getString(R.string.youtube_transcript),
                                                 (mainLyricsProvider == DataStoreManager.MUSIXMATCH) to context.getString(R.string.musixmatch),
                                                 (mainLyricsProvider == DataStoreManager.YOUTUBE) to context.getString(R.string.youtube_transcript),
                                                 (mainLyricsProvider == DataStoreManager.LRCLIB) to context.getString(R.string.lrclib),
@@ -685,7 +685,7 @@ fun SettingScreen(
                                     context.getString(R.string.change) to { state ->
                                         viewModel.setLyricsProvider(
                                             when (state.selectOne?.getSelected()) {
-                                                context.getString(R.string.simpmusic_lyrics) -> DataStoreManager.SIMPMUSIC
+                                                context.getString(R.string.youtube_transcript) -> DataStoreManager.SIMPMUSIC
                                                 context.getString(R.string.musixmatch) -> DataStoreManager.MUSIXMATCH
                                                 context.getString(R.string.youtube_transcript) -> DataStoreManager.YOUTUBE
                                                 context.getString(R.string.lrclib) -> DataStoreManager.LRCLIB
@@ -783,80 +783,7 @@ fun SettingScreen(
                         )
                     },
                 )
-                SettingItem(
-                    title = stringResource(R.string.help_build_lyrics_database),
-                    subtitle = stringResource(R.string.help_build_lyrics_database_description),
-                    switch = (helpBuildLyricsDatabase to { viewModel.setHelpBuildLyricsDatabase(it) }),
-                )
-                SettingItem(
-                    title = stringResource(R.string.contributor_name),
-                    subtitle = contributor.first.ifEmpty { stringResource(R.string.anonymous) },
-                    isEnable = helpBuildLyricsDatabase,
-                    onClick = {
-                        viewModel.setAlertData(
-                            SettingAlertState(
-                                title = context.getString(R.string.contributor_name),
-                                textField =
-                                    SettingAlertState.TextFieldData(
-                                        label = context.getString(R.string.contributor_name),
-                                        value = "",
-                                    ),
-                                message = "",
-                                confirm =
-                                    context.getString(R.string.set) to { state ->
-                                        viewModel.setContributorName(state.textField?.value ?: "")
-                                    },
-                                dismiss = context.getString(R.string.cancel),
-                            ),
-                        )
-                    },
-                )
-                SettingItem(
-                    title = stringResource(R.string.contributor_email),
-                    subtitle = contributor.second.ifEmpty { stringResource(R.string.anonymous) },
-                    isEnable = helpBuildLyricsDatabase,
-                    onClick = {
-                        viewModel.setAlertData(
-                            SettingAlertState(
-                                title = context.getString(R.string.contributor_email),
-                                textField =
-                                    SettingAlertState.TextFieldData(
-                                        label = context.getString(R.string.contributor_email),
-                                        value = "",
-                                        verifyCodeBlock = {
-                                            if (it.isNotEmpty()) {
-                                                (it.contains("@")) to context.getString(R.string.invalid)
-                                            } else {
-                                                true to ""
-                                            }
-                                        },
-                                    ),
-                                message = "",
-                                confirm =
-                                    context.getString(R.string.set) to { state ->
-                                        viewModel.setContributorEmail(state.textField?.value ?: "")
-                                    },
-                                dismiss = context.getString(R.string.cancel),
-                            ),
-                        )
-                    },
-                )
-                Text(
-                    buildAnnotatedString {
-                        append(stringResource(R.string.lyrics_database_description))
-                        append(" ")
-                        withLink(
-                            LinkAnnotation.Url(
-                                "https://github.com/maxrave-dev/lyrics",
-                                TextLinkStyles(style = SpanStyle(color = md_theme_dark_primary)),
-                            ),
-                        ) {
-                            append("https://github.com/maxrave-dev/lyrics")
-                        }
-                    },
-                    style = typo.bodySmall,
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
-                )
+                // Removed backend lyrics contribution settings (toggle, contributor fields, and info text)
             }
         }
         item(key = "AI") {
@@ -1412,19 +1339,7 @@ fun SettingScreen(
                         navController.navigate(CreditDestination)
                     },
                 )
-                SettingItem(
-                    title = stringResource(R.string.auto_check_for_update),
-                    subtitle = stringResource(R.string.auto_check_for_update_description),
-                    switch = (autoCheckUpdate to { viewModel.setAutoCheckUpdate(it) }),
-                )
-                SettingItem(
-                    title = stringResource(R.string.check_for_update),
-                    subtitle = checkForUpdateSubtitle,
-                    onClick = {
-                        checkForUpdateSubtitle = context.getString(R.string.checking)
-                        sharedViewModel.checkForUpdate()
-                    },
-                )
+                // Auto update and manual check removed per requirements
                 SettingItem(
                     title = stringResource(R.string.author),
                     subtitle = stringResource(R.string.maxrave_dev),

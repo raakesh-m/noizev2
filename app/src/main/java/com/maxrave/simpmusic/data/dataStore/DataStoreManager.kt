@@ -372,6 +372,7 @@ class DataStoreManager(
 
     val lyricsProvider =
         settingsDataStore.data.map { preferences ->
+            // Default to Musixmatch as the main provider
             preferences[LYRICS_PROVIDER] ?: MUSIXMATCH
         }
 

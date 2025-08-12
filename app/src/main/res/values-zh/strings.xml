@@ -116,10 +116,10 @@
     <string name="restore_your_saved_data">恢复您保存的数据</string>
     <string name="about_us">关于我们</string>
     <string name="version">版本</string>
-    <string name="github">Github</string>
-    <string name="maxrave_dev">maxrave-dev</string>
-    <string name="buy_me_a_coffee">请我喝杯咖啡（捐赠）</string>
-    <string name="paypal">PayPal</string>
+    <string name="github" translatable="false"> </string>
+    <string name="maxrave_dev" translatable="false"> </string>
+    <string name="buy_me_a_coffee" translatable="false"> </string>
+    <string name="paypal" translatable="false"> </string>
     <string name="title">标题</string>
     <string name="album">专辑</string>
     <string name="youtube_url">YouTube 链接</string>
@@ -245,7 +245,7 @@
     <string name="main_lyrics_provider">主歌词提供商</string>
     <string name="log_in_to_Musixmatch">登录到 Musixmatch</string>
     <string name="only_support_email_and_password_type">仅支持电子邮件和密码类型</string>
-    <string name="musixmatch_login_description">Musixmatch 翻译 API 只对登录用户有效。Noize 使用Musixmatch 开发者API。更多信息请访问https://github.com/maxrave-dev/Noize 或 https://developer.musixmatch.com/</string>
+    <string name="musixmatch_login_description">Musixmatch 翻译 API 只对登录用户有效。Noize 使用Musixmatch 开发者API。</string>
     <string name="use_musixmatch_translation">使用 Musixmatch 翻译</string>
     <string name="use_ai_translation">使用 AI 歌词翻译</string>
     <string name="use_musixmatch_translation_description">使用 Musixmatch 启用歌词翻译。需要 Musixmatch 登录</string>
@@ -275,7 +275,7 @@
     <string name="newer_first">较新的在前</string>
     <string name="added_date">已添加日期</string>
     <string name="credit_app">使用 YouTube Music 作为后端的简单音乐应用 \n\nNoize 是一个开源项目，可以在没有广告和跟踪的情况下从 YouTube 和 YouTube Music 中流式播放音乐。Noize 提供许多功能：\n\n - 流媒体音乐 \n - 同步歌词 \n - 个性化数据 \n -等等… \n\nNoize始终是免费的，没有广告\n\n Tuan Minh Nguyen Duc(Maxrave-dev) 用 ❤️ 构建</string>
-    <string name="issue_tracker">问题跟踪</string>
+    <string name="issue_tracker" translatable="false"> </string>
     <string name="featured_playlists">精选歌单</string>
     <string name="featured_inArtist">精选开启</string>
     <string name="audio_quality">音质</string>
